@@ -14,7 +14,7 @@ Avant d'exécuter le code, assurez-vous d'avoir installé les packages Python su
 Vous pouvez installer ces packages en utilisant pip:
 
 ```sh
-pip install opencv-python-headless matplotlib easyocr pandas
+pip install pip install opencv-contrib-python matplotlib easyocr pandas
 ```
 
 Ou vous pouvez installer toutes les dépendances en utilisant requirements.txt :
@@ -42,6 +42,14 @@ Ce projet vise à extraire du tableau à partir d'une image tout en préservant 
    - `img2table.document`
    - `img2table.ocr`
    - `pandas`
+     Vous pouvez installer ces packages en utilisant pip:
+
+    ```sh
+    pip install pip install img2table[easyocr]
+    ```
+    ```sh
+    pip install pip install img2table[paddle]
+    ```
 
 3. **Extraction de texte avec EasyOCR** :
    - Une image est initialisée avec la source de l'image.
@@ -65,11 +73,39 @@ Ce projet vise à extraire du tableau à partir d'une image tout en préservant 
   ###### Traitement des Deux Premières Lignes de la Première Colonne
   - La fonction `process_first_two_rows(df)` traite les deux premières lignes de la première colonne du DataFrame.
   - Pour chaque ligne, elle extrait le premier élément de la cellule s'il existe, sinon elle ajoute 'None' à la liste des éléments traités.
+    ```python
+        def process_first_two_rows(df):
+            processed_elements = []
+            for i in range(3):
+                cell = df.iloc[i, 0]
+                if pd.isna(cell):
+                    processed_elements.append(None)
+                else:
+                    elements = cell.split('\n')
+                    # Take the first element
+                    processed_elements.append(elements[0])
+            return processed_elements
 
   ###### Traitement des Lignes Restantes de la Première Colonne
   - La fonction `process_remaining_rows(df)` traite les lignes restantes de la première colonne du DataFrame.
   - Elle extrait les éléments suivants de chaque cellule à partir de la troisième ligne, en les ajoutant à la liste des éléments traités.
   - Si une ligne ne contient pas suffisamment d'éléments, elle ajoute 'None' à la liste des éléments traités.
+```python
+    def process_remaining_rows(df):
+    processed_elements = []
+    for i in range(3, len(df.iloc[:, 0])):
+        cell = df.iloc[i, 0]
+        if pd.isna(cell):
+            processed_elements.append(None)
+        else:
+            elements = cell.split('\n')
+            # Remove the first element
+            elements = elements[1:]
+            if i - 3 < len(elements):
+                processed_elements.append(elements[i - 3])
+            else:
+                processed_elements.append(None)
+    return processed_elements
 
 
 
