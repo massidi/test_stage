@@ -2,6 +2,9 @@
 
 Ce projet démontre comment lire, afficher et extraire du texte à partir d'images en utilisant OpenCV, Matplotlib et EasyOCR. en utilisant **Google Colab**
 
+cliquez ici : 
+<a href="https://colab.research.google.com/github/massidi/test_stage/blob/main/stage_test.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
 ### Requirements
 
 Avant d'exécuter le code, assurez-vous d'avoir installé les packages Python suivants :
